@@ -269,7 +269,7 @@ def render_image_to_image():
             )
 
             st.download_button(
-                label="📄 Télécharger le PDF pédagogique",
+                label="📄 Télécharger le contenu pédagogique",
                 data=pdf_bytes,
                 file_name="contenu_pedagogique.pdf",
                 mime="application/pdf",
