@@ -17,6 +17,25 @@ client = OpenAI(
 
 
 # =====================================
+# HELPER FUNCTIONS
+# =====================================
+
+def extract_json_from_text(text: str) -> dict | None:
+    """Extrait le JSON d'un texte qui pourrait contenir du contenu supplémentaire."""
+    # Chercher le premier { et le dernier }
+    start_idx = text.find('{')
+    end_idx = text.rfind('}')
+    
+    if start_idx != -1 and end_idx != -1 and start_idx < end_idx:
+        try:
+            json_str = text[start_idx:end_idx + 1]
+            return json.loads(json_str)
+        except json.JSONDecodeError:
+            return None
+    return None
+
+
+# =====================================
 # TEXT TO IMAGE
 # =====================================
 
@@ -74,28 +93,38 @@ Retourne exactement un JSON avec cette structure :
 }}
 """
 
-    response = client.responses.create(
+    response = client.chat.completions.create(
         model="gpt-4.1-mini",
-        input=[
+        messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
         temperature=0.3
     )
 
+    response_text = response.choices[0].message.content
+    
+    # Essayer d'abord un parsing direct
     try:
-        return json.loads(response.output_text)
-
+        return json.loads(response_text)
     except json.JSONDecodeError:
-        return {
-            "explication": response.output_text,
-            "objectifs_pedagogiques": [],
-            "competences_visees": [],
-            "notions_cles": [],
-            "resume": "",
-            "questions": [],
-            "reponses": []
-        }
+        pass
+    
+    # Si ça échoue, essayer d'extraire le JSON du texte
+    extracted = extract_json_from_text(response_text)
+    if extracted:
+        return extracted
+    
+    # Fallback : retourner le texte brut comme explication
+    return {
+        "explication": response_text,
+        "objectifs_pedagogiques": [],
+        "competences_visees": [],
+        "notions_cles": [],
+        "resume": "",
+        "questions": [],
+        "reponses": []
+    }
     
 
 # =====================================
@@ -156,31 +185,41 @@ Retourne exactement un JSON avec cette structure :
     image_base64 = base64.b64encode(image_bytes).decode("utf-8")
     image_data_uri = f"data:image/png;base64,{image_base64}"
 
-    response = client.responses.create(
+    response = client.chat.completions.create(
         model="gpt-4.1-mini",
-        input=[
+        messages=[
             {"role": "system", "content": system_prompt},
             {
                 "role": "user",
                 "content": [
-                    {"type": "input_text", "text": user_prompt},
-                    {"type": "input_image", "image_url": image_data_uri}
+                    {"type": "text", "text": user_prompt},
+                    {"type": "image_url", "image_url": {"url": image_data_uri}}
                 ]
             }
         ],
         temperature=0.3
     )
 
+    response_text = response.choices[0].message.content
+    
+    # Essayer d'abord un parsing direct
     try:
-        return json.loads(response.output_text)
-
+        return json.loads(response_text)
     except json.JSONDecodeError:
-        return {
-            "explication": response.output_text,
-            "objectifs_pedagogiques": [],
-            "competences_visees": [],
-            "notions_cles": [],
-            "resume": "",
-            "questions": [],
-            "reponses": []
-        }
+        pass
+    
+    # Si ça échoue, essayer d'extraire le JSON du texte
+    extracted = extract_json_from_text(response_text)
+    if extracted:
+        return extracted
+    
+    # Fallback : retourner le texte brut comme explication
+    return {
+        "explication": response_text,
+        "objectifs_pedagogiques": [],
+        "competences_visees": [],
+        "notions_cles": [],
+        "resume": "",
+        "questions": [],
+        "reponses": []
+    }
