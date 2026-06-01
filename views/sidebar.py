@@ -1,6 +1,6 @@
 import streamlit as st
 
-from config.theme import APP_NAME, LOGO_PATH, QUESTIONNAIRE_LINK
+from config.theme import APP_NAME, LOGO_PATH, ENTREVUE_LINK
 
 
 def render_sidebar():
@@ -34,6 +34,6 @@ def render_sidebar():
 
         st.markdown("---")
 
-        st.link_button("📩 Questionnaire", QUESTIONNAIRE_LINK)
+        st.link_button("📩 Entrevue", ENTREVUE_LINK)
 
     return page

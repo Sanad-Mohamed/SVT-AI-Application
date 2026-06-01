@@ -10,4 +10,4 @@ LOGO_PATH = "assets/logos/logo.png"
 TEXT_TO_IMAGE_ICON = "assets/icons/text_to_image.png"
 IMAGE_TO_IMAGE_ICON = "assets/icons/image_to_image.png"
 
-QUESTIONNAIRE_LINK = "https://forms.gle/AcZMs4EhAugtoKfR8"
+ENTREVUE_LINK = "https://forms.gle/AcZMs4EhAugtoKfR8"
