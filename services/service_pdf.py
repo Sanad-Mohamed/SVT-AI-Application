@@ -57,33 +57,33 @@ def generate_schema_pdf(
 
     story.append(PageBreak())
 
-    story.append(Paragraph("3. Explication du schéma", styles["Heading2"]))
+    story.append(Paragraph("2. Explication du schéma", styles["Heading2"]))
     story.append(Paragraph(pedagogical_content.get("explication", ""), styles["Normal"]))
     story.append(Spacer(1, 0.4 * cm))
 
-    story.append(Paragraph("4. Résumé simplifié", styles["Heading2"]))
+    story.append(Paragraph("3. Résumé simplifié", styles["Heading2"]))
     story.append(Paragraph(pedagogical_content.get("resume", ""), styles["Normal"]))
     story.append(Spacer(1, 0.4 * cm))
 
-    story.append(Paragraph("5. Objectifs pédagogiques", styles["Heading2"]))
+    story.append(Paragraph("4. Objectifs pédagogiques", styles["Heading2"]))
     for obj in pedagogical_content.get("objectifs_pedagogiques", []):
         story.append(Paragraph(f"- {obj}", styles["Normal"]))
 
     story.append(Spacer(1, 0.4 * cm))
 
-    story.append(Paragraph("6. Compétences visées", styles["Heading2"]))
+    story.append(Paragraph("5. Compétences visées", styles["Heading2"]))
     for comp in pedagogical_content.get("competences_visees", []):
         story.append(Paragraph(f"- {comp}", styles["Normal"]))
 
     story.append(Spacer(1, 0.4 * cm))
 
-    story.append(Paragraph("7. Notions clés", styles["Heading2"]))
+    story.append(Paragraph("6. Notions clés", styles["Heading2"]))
     for notion in pedagogical_content.get("notions_cles", []):
         story.append(Paragraph(f"- {notion}", styles["Normal"]))
 
     story.append(PageBreak())
 
-    story.append(Paragraph("8. Questions pédagogiques et réponses attendues", styles["Heading2"]))
+    story.append(Paragraph("7. Questions pédagogiques et réponses attendues", styles["Heading2"]))
 
     questions = pedagogical_content.get("questions", [])
     reponses = pedagogical_content.get("reponses", [])
