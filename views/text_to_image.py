@@ -218,7 +218,7 @@ def render_text_to_image():
             st.download_button(
                 label="📥 Télécharger l'image",
                 data=image_bytes,
-                file_name="schema_pedagogique.png",
+                file_name=f"Image générée - {input_data['theme']}.png",
                 mime="image/png",
                 key="download_text_to_image_png",
             )

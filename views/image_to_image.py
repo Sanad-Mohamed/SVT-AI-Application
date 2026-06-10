@@ -263,7 +263,7 @@ def render_image_to_image():
             st.download_button(
                 label="📥 Télécharger l'image",
                 data=generated_bytes,
-                file_name="schema_pedagogique.png",
+                file_name=f"Image numérisée - {theme_value}.png",
                 mime="image/png",
                 key="download_image_to_image_png",
             )
